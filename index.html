@@ -3,227 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>尊爵套房預約系統</title>
+    <title>智能会议室预约系统</title>
     <style>
-        /* 整合响应式布局[7](@ref)与视觉设计[3](@ref) */
         :root {
-            --primary: #0a1a2f; /* 深海蓝 */
-            --accent: #c5a880; /* 香槟金 */
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        body {
-            font-family: 'Helvetica Neue', system-ui;
-            line-height: 1.6;
-            background: #f8f9fa;
+            --primary: #2C3E50;  /* 商务蓝 */
+            --accent: #3498DB;   /* 科技蓝 */
+            --occupied: #E74C3C; /* 已预约红 */
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         /* 响应式网格布局[6](@ref) */
         .room-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            padding: 3rem 5%;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
             max-width: 1440px;
             margin: 0 auto;
         }
 
-        /* 三维卡片效果[4](@ref) */
+        /* 会议室卡片设计[4,7](@ref) */
         .room-card {
-            background: #fff;
-            border-radius: 12px;
+            background: #FFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: var(--transition);
-            box-shadow: 0 8px 30px rgba(10,26,47,0.1);
-            position: relative;
-            transform-style: preserve-3d;
-        }
-
-        .room-card:hover {
-            transform: translateY(-8px) rotateX(3deg);
-            box-shadow: 0 15px 40px rgba(10,26,47,0.2);
-        }
-
-        /* 动态光效[9](@ref) */
-        .room-image {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-bottom: 3px solid var(--accent);
-            transition: var(--transition);
             position: relative;
         }
 
-        .room-card:hover .room-image {
-            transform: scale(1.03);
-        }
-
-        /* 服务标签设计[3](@ref) */
-        .service-tag {
+        .status-badge {
             position: absolute;
-            top: 15px;
-            left: -30px;
+            top: 12px;
+            right: -30px;
             background: var(--accent);
             color: white;
-            padding: 0.5rem 2rem;
-            transform: rotate(-45deg);
+            padding: 0.3rem 2rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        /* 设备标签系统[7](@ref) */
+        .device-tag {
+            display: inline-block;
+            background: #ECF0F1;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            margin: 0.2rem;
             font-size: 0.85rem;
         }
 
-        /* 响应式断点[8](@ref) */
+        /* 时间选择器样式[3](@ref) */
+        .time-slot {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .time-btn {
+            padding: 0.5rem;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* 移动端适配[8](@ref) */
         @media (max-width: 768px) {
-            .room-grid { padding: 1.5rem; }
-            .room-image { height: 220px; }
+            .room-grid { padding: 1rem; }
+            .time-slot { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
 <body>
-    <header style="background: var(--primary); color: white; padding: 3rem; text-align: center;">
-        <h1>PRIVATE SUITES</h1>
-        <p>尊爵会籍专属预约系统</p>
+    <header style="background: var(--primary); color: white; padding: 2rem; text-align: center;">
+        <h1>智能会议室预约系统</h1>
+        <p>选择您的会议空间</p>
     </header>
 
     <main class="room-grid">
-        <!-- 尊爵套房 -->
+        <!-- 会议室模板 -->
         <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
+            <div class="status-badge">可预约</div>
             <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即预约
-                </button>
-            </div>
-        </article>
-        <!-- 尊爵套房 -->
-        <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即预约
-                </button>
-            </div>
-        </article>
-        <!-- 尊爵套房 -->
-        <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即预约
-                </button>
-            </div>
-        </article>
-        <!-- 尊爵套房 -->
-        <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即预约
-                </button>
-            </div>
-        </article>
-        <!-- 尊爵套房 -->
-        <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即预约
-                </button>
-            </div>
-        </article>
-        <!-- 尊爵套房 -->
-        <article class="room-card">
-            <div class="service-tag">行政酒廊</div>
-            <img src="vip-suite.jpg" alt="尊爵套房" class="room-image">
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">总统套房</h2>
-                <ul style="list-style: none; margin-bottom: 1.5rem;">
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>200㎡ 全景落地窗
-                    </li>
-                    <li style="display: flex; align-items: center; margin-bottom: 0.8rem;">
-                        <span style="color: var(--accent); margin-right: 0.5rem;">✦</span>私人泳池与SPA
-                    </li>
-                </ul>
-                <button style="background: var(--accent); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">A201会议室</h2>
+                <div style="margin-bottom: 1rem;">
+                    <span style="color: var(--accent);">▶ 容纳人数：</span>8-12人
+                </div>
+                
+                <!-- 设备标签[7](@ref) -->
+                <div style="margin-bottom: 1rem;">
+                    <span style="color: var(--accent);">▶ 设备配置：</span>
+                    <span class="device-tag">投影仪</span>
+                    <span class="device-tag">视频会议</span>
+                    <span class="device-tag">白板</span>
+                </div>
+
+                <!-- 时间选择[3,8](@ref) -->
+                <div class="time-slot">
+                    <div class="time-btn">09:00-10:30</div>
+                    <div class="time-btn">10:30-12:00</div>
+                    <div class="time-btn">14:00-15:30</div>
+                    <div class="time-btn">15:30-17:00</div>
+                </div>
+
+                <button style="background: var(--accent); color: white; width: 100%; 
+                    padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
                     立即预约
                 </button>
             </div>
         </article>
 
-        <!-- 其他房型复制相同结构 -->
+        <!-- 更多会议室... -->
     </main>
 
-    <!-- 交互功能[10](@ref) -->
     <script>
-        // 平滑滚动效果
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // 预约状态管理[6,8](@ref)
+        const rooms = [
+            {
+                id: "A201",
+                capacity: "8-12人",
+                devices: ["投影仪", "视频会议", "白板"],
+                schedule: {
+                    "2025-04-24": ["09:00-10:30", "14:00-15:30"]
+                }
+            }
+        ];
+
+        // 时间选择交互[3](@ref)
+        document.querySelectorAll('.time-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('selected');
+                this.style.background = this.classList.contains('selected') 
+                    ? var(--accent) : '#FFF';
             });
         });
 
-        // 动态价格计算
-        const dynamicPricing = {
-            basePrice: 8888,
-            seasonalFactor: 1.2,
-            calculate: function() {
-                return new Date().getMonth() > 10 || new Date().getMonth() < 3 
-                    ? this.basePrice * this.seasonalFactor 
-                    : this.basePrice;
-            }
-        };
+        // 冲突检测[8](@ref)
+        function checkConflict(roomId, selectedTime) {
+            return rooms.find(room => 
+                room.id === roomId && 
+                room.schedule[new Date().toISOString().split('T')[0]]?.includes(selectedTime)
+            );
+        }
     </script>
 </body>
 </html>
