@@ -3,109 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private會議室預約</title>
+    <title>尊貴會議預約系統 | LUXURY SPACE</title>
     <style>
         :root {
-            --primary: #2C3E50;  /* 商务蓝 */
-            --accent: #3498DB;   /* 科技蓝 */
-            --occupied: #E74C3C; /* 已预约红 */
-            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --primary: #1a1a1d;   /* 暗夜黑 */
+            --accent: #c5a880;    /* 香檳金 */
+            --secondary: #2b2b2e; /* 深灰 */
+            --gradient: linear-gradient(135deg, rgba(197,168,128,0.2) 0%, rgba(197,168,128,0.05) 100%);
+            --shadow: 0 12px 40px rgba(0,0,0,0.25);
+            --transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        /* 响应式网格布局[6](@ref) */
+        body {
+            font-family: 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+            background: var(--primary);
+            color: #e0e0e0;
+        }
+
+        /* 殿堂級標題 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 4rem 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(197,168,128,0.1) 0%, transparent 60%);
+            animation: aura 8s infinite linear;
+        }
+
+        /* 動態網格佈局 */
         .room-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem 5%;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 4rem 5%;
             max-width: 1440px;
             margin: 0 auto;
         }
 
-        /* 会议室卡片设计[4,7](@ref) */
+        /* 精工卡片設計 */
         .room-card {
-            background: #FFF;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--secondary);
+            border-radius: 16px;
             overflow: hidden;
             position: relative;
+            transition: var(--transition);
+            border: 1px solid rgba(197,168,128,0.15);
         }
 
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+
+        /* 立體徽章 */
         .status-badge {
             position: absolute;
-            top: 12px;
-            right: -30px;
+            top: 20px;
+            right: -32px;
             background: var(--accent);
-            color: white;
-            padding: 0.3rem 2rem;
+            color: var(--primary);
+            padding: 0.5rem 3rem;
             transform: rotate(45deg);
-            font-size: 0.8rem;
-            z-index: 1;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(197,168,128,0.3);
         }
 
-        /* 设备标签系统[7](@ref) */
+        /* 設備標籤 */
         .device-tag {
-            display: inline-block;
-            background: #ECF0F1;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            margin: 0.2rem;
-            font-size: 0.85rem;
-        }
-
-        /* 时间选择器样式[3](@ref) */
-        .time-slot {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .time-btn {
-            padding: 0.5rem;
-            border: 1px solid #DDD;
-            border-radius: 4px;
-            text-align: center;
-            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(197,168,128,0.1);
+            border: 1px solid rgba(197,168,128,0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            margin: 0.3rem;
+            backdrop-filter: blur(4px);
             transition: var(--transition);
         }
 
-        /* 移动端适配[8](@ref) */
+        .device-tag::before {
+            content: '✦';
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        /* 訂製按鈕 */
+        .booking-btn {
+            position: relative;
+            background: linear-gradient(135deg, var(--accent) 0%, #b89a6d 100%);
+            color: var(--primary);
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .booking-btn::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 20%, rgba(255,255,255,0.15) 50%, transparent 80%);
+            animation: shine 3s infinite;
+        }
+
+        /* 動態效果 */
+        @keyframes aura {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shine {
+            100% { transform: translate(100%, 100%); }
+        }
+
+        /* 響應式設計 */
         @media (max-width: 768px) {
-            .room-grid { padding: 1rem; }
-            .time-slot { grid-template-columns: repeat(3, 1fr); }
+            .room-grid { padding: 2rem; gap: 2rem; }
+            header { padding: 3rem 1.5rem; }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header style="background: var(--primary); color: white; padding: 2rem; text-align: center;">
-        <h1>Private會議室預約</h1>
-        <p>選擇你的會議空間</p>
+    <header>
+        <h1 style="font-size: 2.8rem; margin-bottom: 1rem; letter-spacing: 2px;">PRIVATE LOUNGE</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">尊榮會議空間預約系統</p>
     </header>
 
     <main class="room-grid">
-        <!-- Gold會議室 -->
+        <!-- Gold 會議室 -->
         <article class="room-card">
-            <div class="status-badge">立即預約</div>
-            <div style="padding: 1.5rem;">
-                <h2 style="color: var(--primary); margin-bottom: 1rem;">Gold</h2>
-                <div style="margin-bottom: 1rem;">
-                    <span style="color: var(--accent);">▶ 容納人數：</span>4-8人
+            <div class="status-badge">VIP ACCESS</div>
+            <div style="padding: 2rem;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--accent);">GOLD SUITE</h2>
+                <div style="margin-bottom: 1.5rem; opacity: 0.9;">
+                    <span style="color: var(--accent);">◈ 容納人數：</span>4-8人
                 </div>
-                
-                <!-- 设备标签[7](@ref) -->
-                <div style="margin-bottom: 1rem;">
-                    <span style="color: var(--accent);">▶ 設備配置：</span>
-                    <span class="device-tag">投影儀</span>
-                    <span class="device-tag">視像會議</span>
-                    <span class="device-tag">白板</span>
-                                        <span class="device-tag">充電</span>
+                <div style="margin-bottom: 2rem;">
+                    <span style="color: var(--accent);">◈ 設備配置：</span>
+                    <span class="device-tag">4K投影系統</span>
+                    <span class="device-tag">全景視訊</span>
+                    <span class="device-tag">智能白板</span>
+                    <span class="device-tag">無線充電站</span>
                 </div>
-<a href="https://calendly.com/private-gold/60min?back=1&month=2025-04" style="display: block; text-decoration: none;">
-                <button style="background: var(--accent); color: white; width: 100%; 
-                    padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即預約
-                </button>
+                <a href="https://calendly.com/private-gold" style="text-decoration: none;">
+                    <button class="booking-btn">即刻預約 →</button>
+                </a>
             </div>
         </article>
         
@@ -122,11 +181,13 @@
                     <span style="color: var(--accent);">▶ 設備配置：</span>
                     <span class="device-tag">充電</span>
                 </div>
-<a href="https://calendly.com/private-select" style="display: block; text-decoration: none;">
+                
+                <a href="https://calendly.com/private-select/60min?back=1&month=2025-04" style="display: block; text-decoration: none;">
                 <button style="background: var(--accent); color: white; width: 100%; 
                     padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
                     立即預約
                 </button>
+                  </a>
             </div>
         </article>
 
@@ -149,6 +210,7 @@
                     padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
                     立即預約
                 </button>
+  </a>
             </div>
         </article>
         
@@ -170,6 +232,7 @@
                     padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
                     立即預約
                 </button>
+  </a>
             </div>
         </article>
         
@@ -190,6 +253,7 @@
                     padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
                     立即預約
                 </button>
+              </a>
             </div>
         </article>
 
@@ -207,11 +271,13 @@
                     <span style="color: var(--accent);">▶ 設備配置：</span>
                     <span class="device-tag">充電</span>
                 </div>
-<a href="https://calendly.com/private-select" style="display: block; text-decoration: none;">
-                <button style="background: var(--accent); color: white; width: 100%; 
-                    padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
-                    立即預約
-                </button>
+              
+                <a href="YOUR_LINK_HERE" style="display: block; text-decoration: none;">
+    <button style="background: var(--accent); color: white; width: 100%; 
+        padding: 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
+        立即預約
+    </button>
+</a>
             </div>
         </article>
 
@@ -246,6 +312,20 @@
                 room.schedule[new Date().toISOString().split('T')[0]]?.includes(selectedTime)
             );
         }
+    </script>
+  <script>
+        // 動態材質效果
+        document.querySelectorAll('.room-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const x = e.pageX - card.offsetLeft;
+                const y = e.pageY - card.offsetTop;
+                card.style.transform = `perspective(1000px) rotateX(${(y/card.offsetHeight-0.5)*4}deg) rotateY(${(x/card.offsetWidth-0.5)*4}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
     </script>
 </body>
 </html>
